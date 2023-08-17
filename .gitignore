@@ -160,3 +160,10 @@ cython_debug/
 #.idea/
 /pyvenv.cfg
 /Scripts/
+/.idea/.gitignore
+/.idea/Mailing&Statistic_WebApp.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/inspectionProfiles/profiles_settings.xml
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/vcs.xml
