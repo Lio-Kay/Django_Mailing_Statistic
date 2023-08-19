@@ -1,5 +1,8 @@
 from django.db import models
 
+from mailing_app.mailing.apps import MailingConfig
+
+app_name = MailingConfig.name
 
 NULLABLE = {'blank': True, 'null': True}
 
@@ -15,7 +18,7 @@ class Client(models.Model):
         return f'{self.name}, {self.surname}, {self.email}'
 
     class Meta:
-        verbose_name = 'клиент'
+        verbose_name = 'клиента'
         verbose_name_plural = 'клиенты'
         ordering = 'name',  'surname', 'email'
 
@@ -45,7 +48,7 @@ class MailingSettings(models.Model):
         return f'{self.time}, {self.frequency}, {self.status}, {self.client}'
 
     class Meta:
-        verbose_name = 'настройка'
+        verbose_name = 'настройку'
         verbose_name_plural = 'настройки'
         ordering = 'time',  'frequency', 'status',
 
@@ -81,5 +84,5 @@ class MailingLogs(models.Model):
 
     class Meta:
         verbose_name = 'лог'
-        verbose_name_plural = 'логги'
+        verbose_name_plural = 'логи'
         ordering = 'time', 'status'
