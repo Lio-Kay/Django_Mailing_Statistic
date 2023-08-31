@@ -13,6 +13,7 @@ class Client(models.Model):
     patronim = models.CharField(max_length=50, **NULLABLE,verbose_name='Отчество')
     email = models.EmailField(max_length=100,verbose_name='Контактный email')
     commentary = models.TextField(**NULLABLE, verbose_name='Комментарий')
+    slug = models.SlugField(max_length=100, unique=True, verbose_name='Slug')
 
     def __str__(self):
         return f'{self.name}, {self.surname}, {self.email}'
