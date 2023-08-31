@@ -16,7 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
+    # path('', include('main_page.urls', namespace='main_page')),
+    path('mailing', include('mailing.urls', namespace='mailing')),
+    # path('blog', include('blog.urls', namespace='blog')),
     path('admin/', admin.site.urls),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
