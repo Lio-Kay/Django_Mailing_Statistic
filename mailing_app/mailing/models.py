@@ -1,6 +1,7 @@
 from django.db import models
 
-from mailing_app.mailing.apps import MailingConfig
+from mailing.apps import MailingConfig
+
 
 app_name = MailingConfig.name
 
