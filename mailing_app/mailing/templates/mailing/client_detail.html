@@ -1,0 +1,87 @@
+{% extends 'main_page/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<main>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-3">
+        <div class="card">
+          <div class="card-header text-center">
+            <h4><b>Данные клиента</b></h4>
+          </div>
+          <div class="card-body">
+            <p class="card-text my-1"><b>ФИО:</b></p>
+            <p class="card-title">{{ object.name }} {{ object.surname }} {{ object.patronim }}</p>
+            <p class="card-text my-1"><b>Почта:</b></p>
+            <p class="card-text my-1">{{ object.email }}</p>
+            <p class="card-text my-1"><b>Комментарий:</b></p>
+            <p class="card-text overflow-auto" style="max-height: 20vh;">{{ object.commentary }}</p>
+            <div class="d-grid gap-2">
+              <a href="{% url 'mailing:update_client' object.pk %}" class="btn btn-secondary d-flex justify-content-center">Изменить клиента</a>
+              <a href="{% url 'mailing:delete_client' object.pk %}" class="btn btn-danger d-flex justify-content-center">Удалить клиента</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-9">
+        <div class="card">
+          <div class="card-header text-center d-flex justify-content-md-between">
+            <button class="btn btn btn-secondary" style="pointer-events: none;">Кол-во рассылок клиента: {{ mailing_counter }}</button>
+            <a href="{% url 'mailing:create_mailing' object.pk %}" class="btn btn btn-success">Добавить рассылку</a>
+          </div>
+          {% for m in mailing_info %}
+          <div class="card-body p-0">
+            <div class="container text-left">
+              <div class="row bg-body-white align-items-center">
+                <div class="col-3">
+                  {{ m.0.time }}
+                </div>
+                <div class="col">
+                  {{ m.0.get_frequency_display }}
+                </div>
+                <div class="col">
+                  {{ m.0.get_status_display }}
+                </div>
+                <div class="col-3">
+                  {{ m.1.subject|truncatechars:25 }}
+                </div>
+                <div class="col p-0">
+                  <div class="btn-group">
+                    <a href="{% url 'mailing:update_client' object.pk %}" class="btn btn-outline-dark">Изменить</a>
+                    <a href="#" class="btn btn-outline-danger">Удалить</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% empty %}
+          <div class="card-body p-0">
+            <h3 class="m-3">У клиента нет рассылок.</h3>
+          </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!--        <div class="col-6">-->
+<!--          <div class="card">-->
+<!--            <div class="card-body">-->
+<!--              <h5 class="card-text my-1"><b>ФИО:</b></h5>-->
+<!--              <h5 class="card-title">{{ object.name }} {{ object.surname }} {{ object.patronim }}</h5>-->
+<!--              <p class="card-text my-1"><b>Почта:</b></p>-->
+<!--              <p class="card-text my-1">{{ object.email }}</p>-->
+<!--              <p class="card-text my-1"><b>Комментарий:</b></p>-->
+<!--              <p class="card-text overflow-auto" style="max-height: 50vh;">{{ object.commentary }}</p>-->
+<!--              <a href="#" class="btn btn-danger d-flex justify-content-center">Удалить клиента</a>-->
+<!--            </div>-->
+<!--            </div>-->
+
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'main_page/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<main>
+
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col-4 pt-5">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <form method="post">
+              {% csrf_token %}
+              <h4 class="pb-3"><b>Удалить {{ object.name }} {{ object.surname}}?</b></h4>
+              <div class="d-flex justify-content-center gap-2">
+                <button type="submit" class="btn btn-lg btn-danger">Удалить</button>
+                <a class="btn btn-lg btn-secondary" href="{% url 'mailing:client_details' object.pk %}">Отмена</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+{% endblock %}

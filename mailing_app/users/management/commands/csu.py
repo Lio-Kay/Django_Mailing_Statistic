@@ -1,6 +1,6 @@
 from django.core.management import BaseCommand
 
-from users.models import User
+from mailing_app.users.models import User
 
 
 class Command(BaseCommand):

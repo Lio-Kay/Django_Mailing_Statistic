@@ -1,6 +1,6 @@
 from django.urls import path
 
-from main_page.apps import MainPageConfig
+from mailing_app.main_page.apps import MainPageConfig
 
 
 app_name = MainPageConfig.name

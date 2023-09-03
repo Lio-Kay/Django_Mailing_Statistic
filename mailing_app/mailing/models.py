@@ -1,6 +1,6 @@
 from django.db import models
 
-from mailing.apps import MailingConfig
+from mailing_app.mailing.apps import MailingConfig
 
 
 app_name = MailingConfig.name
@@ -11,7 +11,7 @@ NULLABLE = {'blank': True, 'null': True}
 class Client(models.Model):
     name = models.CharField(max_length=50, verbose_name='Имя')
     surname = models.CharField(max_length=50, verbose_name='Фамилия')
-    patronim = models.CharField(max_length=50, **NULLABLE,verbose_name='Отчество')
+    patronim = models.CharField(**NULLABLE, max_length=50, verbose_name='Отчество')
     email = models.EmailField(max_length=100,verbose_name='Контактный email')
     commentary = models.TextField(**NULLABLE, verbose_name='Комментарий')
     slug = models.SlugField(max_length=100, unique=True, verbose_name='Slug')
@@ -30,21 +30,22 @@ class MailingSettings(models.Model):
     WEEKLY = "WKL"
     MONTHLY = "MTH"
     FREQUENCY_CHOICES = [
-        (DAILY, "Daily"),
-        (WEEKLY, "Weekly"),
-        (MONTHLY, "Monthly"),
+        (DAILY, "Ежедневно"),
+        (WEEKLY, "Еженедельно"),
+        (MONTHLY, "Ежемесячно"),
     ]
     frequency = models.CharField(max_length=3, choices=FREQUENCY_CHOICES, default=DAILY, verbose_name='Переодичность')
     COMPLETED = "COMP"
     CREATED = "CRE"
     STARTED = "STAR"
     STATUS_CHOICES = [
-        (COMPLETED, "Completed"),
-        (CREATED, "Created"),
-        (STARTED, "Started"),
+        (COMPLETED, "Завершена"),
+        (CREATED, "Создана"),
+        (STARTED, "Инициирована"),
     ]
     status = models.CharField(max_length=4, choices=STATUS_CHOICES, default=CREATED,  verbose_name='Статус')
-    client = models.ForeignKey(to='Client', on_delete=models.CASCADE)
+    client = models.ForeignKey(**NULLABLE, to='Client', on_delete=models.SET_NULL)
+    logs = models.ForeignKey(**NULLABLE, to='MailingLogs', on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.time}, {self.frequency}, {self.status}, {self.client}'
@@ -55,9 +56,9 @@ class MailingSettings(models.Model):
         ordering = 'time',  'frequency', 'status',
 
 class MailingMessage(models.Model):
-    subject = models.CharField(max_length=200,verbose_name='Тема')
-    message = models.TextField(**NULLABLE,verbose_name='Сообщение')
-    settings = models.ForeignKey(to=MailingSettings, **NULLABLE, on_delete=models.SET_NULL)
+    subject = models.CharField(**NULLABLE, max_length=200, verbose_name='Тема')
+    message = models.TextField(**NULLABLE, verbose_name='Сообщение')
+    settings = models.ForeignKey(**NULLABLE, to='MailingSettings', on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.subject}, {self.message}'
@@ -73,13 +74,13 @@ class MailingLogs(models.Model):
     CREATED = "CRE"
     STARTED = "STAR"
     STATUS_CHOICES = [
-        (COMPLETED, "Completed"),
-        (CREATED, "Created"),
-        (STARTED, "Started"),
+        (COMPLETED, "Завершена"),
+        (CREATED, "Создана"),
+        (STARTED, "Инициирована"),
     ]
     status = models.CharField(max_length=4, choices=STATUS_CHOICES, default=CREATED, verbose_name='Статус')
     service_response = models.TextField(**NULLABLE, verbose_name='Ответ сервера')
-    settigns = models.ForeignKey(to=MailingSettings, on_delete=models.CASCADE)
+    settings = models.ForeignKey(to='MailingSettings', on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.time}, {self.status}, {self.service_response}'
