@@ -5,22 +5,29 @@
 
 <main>
 
-  <div class="container">
-    <div class="row justify-content-md-center">
-      <div class="col-8">
-        <div class="card shadow-sm">
-          <div class="card-body">
-            <form method="post" enctype="multipart/form-data">
-              {% csrf_token %}
-              {{ form|crispy }}
-              <button type="submit" class="btn btn-lg btn-success">Создать</button>
-              <a href="{% url 'mailing:clients_list' %}" class="btn btn-lg btn-secondary">Назад</a>
-            </form>
+  <form method="post" enctype="multipart/form-data">
+    <div class="container">
+      <div class="row">
+          <div class="col-4">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-lg btn-success">Создать</button>
+                <a href="{% url 'mailing:clients_list' %}" class="btn btn-lg btn-secondary">Назад</a>
+              </div>
+            </div>
           </div>
-        </div>
+          <div class="col-4">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                {{ formset|crispy }}
+              </div>
+            </div>
+          </div>
       </div>
     </div>
-  </div>
+  </form>
 
 </main>
 

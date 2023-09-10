@@ -1,10 +1,8 @@
 from django import forms
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit
 
-from mailing.models import MailingSettings
-
-
-class DateInput(forms.DateInput):
-    input_type = 'date'
+from mailing.models import MailingSettings, MailingMessage
 
 
 class MailingSettingsForm(forms.ModelForm):
@@ -12,7 +10,10 @@ class MailingSettingsForm(forms.ModelForm):
     class Meta:
         model = MailingSettings
         exclude = 'logs',
-        widgets = {
-            'made_on': DateInput()
-        }
 
+
+class MailingMessageForm(forms.ModelForm):
+
+    class Meta:
+        model = MailingMessage
+        fields = '__all__'

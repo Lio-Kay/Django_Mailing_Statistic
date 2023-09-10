@@ -12,13 +12,13 @@
           <div class="card-header text-center">
             <h4><b>Данные клиента</b></h4>
           </div>
-          <div class="card-body">
+          <div class="card-body" style="max-height: 70vh;">
             <p class="card-text my-1"><b>ФИО:</b></p>
             <p class="card-title">{{ object.name }} {{ object.surname }} {{ object.patronim }}</p>
             <p class="card-text my-1"><b>Почта:</b></p>
             <p class="card-text my-1">{{ object.email }}</p>
             <p class="card-text my-1"><b>Комментарий:</b></p>
-            <p class="card-text overflow-auto" style="max-height: 20vh;">{{ object.commentary }}</p>
+            <p class="card-text overflow-auto">{{ object.commentary }}</p>
             <div class="d-grid gap-2">
               <a href="{% url 'mailing:update_client' object.pk %}" class="btn btn-secondary d-flex justify-content-center">Изменить клиента</a>
               <a href="{% url 'mailing:delete_client' object.pk %}" class="btn btn-danger d-flex justify-content-center">Удалить клиента</a>
@@ -50,8 +50,8 @@
                 </div>
                 <div class="col p-0">
                   <div class="btn-group">
-                    <a href="{% url 'mailing:update_client' object.pk %}" class="btn btn-outline-dark">Изменить</a>
-                    <a href="#" class="btn btn-outline-danger">Удалить</a>
+                    <a href="{% url 'mailing:update_mailing' object.pk %}" class="btn btn-outline-dark">Изменить</a>
+                    <a href="{% url 'mailing:delete_mailing' object.pk %}" class="btn btn-outline-danger">Удалить</a>
                   </div>
                 </div>
               </div>
@@ -69,19 +69,5 @@
   </div>
 
 </main>
-
-<!--        <div class="col-6">-->
-<!--          <div class="card">-->
-<!--            <div class="card-body">-->
-<!--              <h5 class="card-text my-1"><b>ФИО:</b></h5>-->
-<!--              <h5 class="card-title">{{ object.name }} {{ object.surname }} {{ object.patronim }}</h5>-->
-<!--              <p class="card-text my-1"><b>Почта:</b></p>-->
-<!--              <p class="card-text my-1">{{ object.email }}</p>-->
-<!--              <p class="card-text my-1"><b>Комментарий:</b></p>-->
-<!--              <p class="card-text overflow-auto" style="max-height: 50vh;">{{ object.commentary }}</p>-->
-<!--              <a href="#" class="btn btn-danger d-flex justify-content-center">Удалить клиента</a>-->
-<!--            </div>-->
-<!--            </div>-->
-
 
 {% endblock %}
