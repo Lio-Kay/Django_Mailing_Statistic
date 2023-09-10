@@ -8,7 +8,7 @@
     <div class="row">
       <div class="col-12">
         <div class="container m-3">
-          <a class="btn btn-lg btn-dark text-white">Добавить клиента</a>
+          <a href="{% url 'mailing:create_client' %}" class="btn btn-lg btn-dark text-white">Добавить клиента</a>
           <a class="btn btn-lg btn-secondary text-white">Создать рассылку</a>
         </div>
           <div class="container m-3">
@@ -16,13 +16,13 @@
             <div class="container text-left my-2">
               <div class="row bg-body-secondary align-items-center border border-secondary rounded">
                 <div class="col-2">
-                  {{ object.name|truncatechars:15 }}
+                  {{ object.name|truncatechars:10 }}
                 </div>
                 <div class="col-2">
-                  {{ object.surname|truncatechars:15 }}
+                  {{ object.surname|truncatechars:10 }}
                 </div>
                 <div class="col-2">
-                  {{ object.patronim|truncatechars:15 }}
+                  {{ object.patronim|truncatechars:10 }}
                 </div>
                 <div class="col">
                   {{ object.email|truncatechars:15 }}

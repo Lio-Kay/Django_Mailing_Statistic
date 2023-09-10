@@ -5,13 +5,9 @@ from django.forms import inlineformset_factory
 from django.urls import reverse_lazy, reverse
 
 from mailing.models import Client, MailingSettings, MailingMessage, MailingLogs
-from mailing_app.mailing.forms import MailingSettingsForm, MailingMessageForm
+from mailing_app.mailing.forms import MailingSettingsForm, MailingMessageForm, ClientForm
 
 from itertools import zip_longest
-
-
-class ClientCreate(CreateView):
-    pass
 
 
 class ClientList(ListView):
@@ -36,15 +32,29 @@ class ClientDetail(DetailView):
 
         return cd
 
-class ClientUpdate(UpdateView):
+
+class ClientCreate(CreateView):
     model = Client
-    fields = 'name', 'surname', 'patronim', 'email', 'commentary'
+    form_class = ClientForm
+    success_url = reverse_lazy('mailing:clients_list')
 
     def form_valid(self, form):
         if form.is_valid():
-            updated_user = form.save()
-            updated_user.slug = slugify(f'{updated_user.name}_{updated_user.surname}_{updated_user.patronim}')
-            updated_user.save()
+            new_client = form.save()
+            new_client.slug = slugify(new_client.email)
+            new_client.save()
+        return super().form_valid(form)
+
+
+class ClientUpdate(UpdateView):
+    model = Client
+    form_class = ClientForm
+
+    def form_valid(self, form):
+        if form.is_valid():
+            new_client = form.save()
+            new_client.slug = slugify(new_client.email)
+            new_client.save()
         return super().form_valid(form)
 
 
@@ -56,6 +66,14 @@ class ClientDelete(DeleteView):
 class MailingSettingsCreate(CreateView):
     model = MailingSettings
     form_class = MailingSettingsForm
+
+    def form_valid(self, form):
+        message_formset = self.get_context_data()['formset']
+        self.object = form.save()
+        if message_formset.is_valid():
+            message_formset.instance = self.object
+            message_formset.save()
+        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)

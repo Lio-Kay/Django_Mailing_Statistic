@@ -13,8 +13,16 @@
             <form action="" method="post" enctype="multipart/form-data">
               {% csrf_token %}
               {{ form|crispy }}
+              {% if object %}
+              <button type="submit" class="btn btn-lg btn-success">Изменить</button>
+              {% else %}
               <button type="submit" class="btn btn-lg btn-success">Создать</button>
+              {% endif %}
+              {% if object %}
               <a href="{% url 'mailing:client_details' object.pk %}" class="btn btn-lg btn-secondary">Назад</a>
+              {% else %}
+              <a href="{% url 'mailing:clients_list' %}" class="btn btn-lg btn-secondary">Назад</a>
+              {% endif %}
             </form>
           </div>
         </div>
