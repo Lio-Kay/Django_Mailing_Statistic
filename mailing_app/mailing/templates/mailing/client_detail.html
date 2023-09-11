@@ -30,7 +30,7 @@
         <div class="card">
           <div class="card-header text-center d-flex justify-content-md-between">
             <button class="btn btn btn-secondary" style="pointer-events: none;">Кол-во рассылок клиента: {{ mailing_counter }}</button>
-            <a href="{% url 'mailing:create_mailing' object.pk %}" class="btn btn btn-success">Добавить рассылку</a>
+            <a href="{% url 'mailing:create_mailing' object.slug %}" class="btn btn btn-success">Добавить рассылку</a>
           </div>
           {% for m in mailing_info %}
           <div class="card-body p-0">

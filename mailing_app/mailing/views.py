@@ -19,7 +19,6 @@ class ClientDetail(DetailView):
 
     def get_context_data(self, **kwargs):
         cd = super().get_context_data(**kwargs)
-        self.request.session['email'] = cd.get('object').email
         try:
             mailing_settings_pk = MailingSettings.objects.filter(client=cd.get('object').pk)[0].pk
             cd['mailing_info'] = (
@@ -71,10 +70,6 @@ class MailingSettingsCreate(CreateView):
     def form_valid(self, form):
         message_formset = self.get_context_data()['formset']
         self.object = form.save()
-        if form.is_valid():
-            new_client = form.save()
-            new_client.email = self.request.session['email']
-            new_client.save()
         if message_formset.is_valid():
             message_formset.instance = self.object
             message_formset.save()
@@ -90,7 +85,7 @@ class MailingSettingsCreate(CreateView):
         return context_data
 
     def get_success_url(self):
-        return reverse('mailing:client_details', kwargs={'pk': self.kwargs['pk']})
+        return reverse('mailing:client_details', kwargs={'slug': self.object.client.slug})
 
 
 class MailingSettingsUpdate(UpdateView):

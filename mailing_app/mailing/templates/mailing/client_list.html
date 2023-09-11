@@ -29,9 +29,9 @@
                 </div>
                 <div class="col p-0">
                   <div class="btn-group" style="width:100%">
-                    <a href="{% url 'mailing:client_details' object.pk %}" class="btn btn-sm btn-outline-success">Подробнее</a>
+                    <a href="{% url 'mailing:client_details' object.slug %}" class="btn btn-sm btn-outline-success">Подробнее</a>
                     <a href="{% url 'mailing:create_mailing' object.pk %}" class="btn btn-sm btn-outline-dark">Новая рассылка</a>
-                    <a href="{% url 'mailing:delete_client' object.pk %}" class="btn btn-sm btn-outline-danger">Удалить</a>
+                    <a href="{% url 'mailing:delete_client' object.slug %}" class="btn btn-sm btn-outline-danger">Удалить</a>
                   </div>
                 </div>
               </div>
