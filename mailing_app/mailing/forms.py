@@ -16,7 +16,7 @@ class MailingSettingsForm(forms.ModelForm):
 
     class Meta:
         model = MailingSettings
-        exclude = 'logs',
+        exclude = 'client', 'logs',
 
 
 class MailingMessageForm(forms.ModelForm):
