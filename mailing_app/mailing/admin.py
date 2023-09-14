@@ -12,10 +12,10 @@ class ClientAdmin(admin.ModelAdmin):
 
 @admin.register(MailingSettings)
 class MailingSettingsAdmin(admin.ModelAdmin):
-    list_display = 'id', 'time', 'frequency', 'status', 'client'
+    list_display = 'id', 'time', 'frequency', 'status'
     list_display_links = 'id', 'time'
     list_filter = 'frequency', 'status',
-    search_fields = 'time', 'client',
+    search_fields = 'time',
     list_editable = 'frequency', 'status',
 
 

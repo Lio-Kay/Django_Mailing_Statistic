@@ -44,11 +44,10 @@ class MailingSettings(models.Model):
         (STARTED, "Инициирована"),
     ]
     status = models.CharField(max_length=4, choices=STATUS_CHOICES, default=CREATED,  verbose_name='Статус')
-    client = models.ForeignKey(**NULLABLE, to='Client', on_delete=models.SET_NULL)
-    logs = models.ForeignKey(**NULLABLE, to='MailingLogs', on_delete=models.CASCADE)
+    client = models.ManyToManyField(**NULLABLE, to='Client')
 
     def __str__(self):
-        return f'{self.time}, {self.frequency}, {self.status}, {self.client}'
+        return f'{self.time}, {self.frequency}, {self.status}'
 
     class Meta:
         verbose_name = 'настройку'

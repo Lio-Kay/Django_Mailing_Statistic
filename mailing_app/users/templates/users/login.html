@@ -1,0 +1,25 @@
+{% extends 'main_page/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<main>
+  <form method="post" enctype="multipart/form-data">
+    <div class="container">
+      <div class="row justify-content-md-center">
+        <div class="col-4">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              {% csrf_token %}
+              {{ form|crispy }}
+              <button type="submit" class="btn btn-primary btn-lg">Войти</button>
+              <a class="btn btn-secondary btn-lg" href="{% url 'user:generate_password' %}">Восстановить пароль</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</main>
+
+{% endblock %}

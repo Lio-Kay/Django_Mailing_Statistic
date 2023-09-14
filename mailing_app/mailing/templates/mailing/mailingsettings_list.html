@@ -8,17 +8,18 @@
     <div class="row">
       <div class="col-12">
         <div class="container m-3">
-          <a href="{% url 'mailing:mailing_list' %}" class="btn btn-lg btn-primary text-white mr-4">К рассылкам</a>
-          <a href="{% url 'mailing:client_create' %}" class="btn btn-lg btn-dark text-white">Добавить клиента</a>
+          <a href="{% url 'mailing:clients_list' %}" class="btn btn-lg btn-primary text-black mr-4">К клиентам</a>
+          <a href="{% url 'mailing:mailing_create' %}" class="btn btn-lg btn-dark text-white">Создать рассылку</a>
+          <a href="#" class="btn btn-lg btn-secondary text-white">Посмотреть отчеты по рассылкам</a>
         </div>
           <div class="container m-3">
             <table class="table text-left my-2">
               <thead class="thead-dark">
                 <tr>
                   <th scope="col">ID</th>
-                  <th scope="col">Имя</th>
-                  <th scope="col">Фамилия</th>
-                  <th scope="col">Почта</th>
+                  <th scope="col">Время</th>
+                  <th scope="col">Частота</th>
+                  <th scope="col">Статус</th>
                   <th scope="col">Действие</th>
                 </tr>
               </thead>
@@ -26,13 +27,13 @@
                 {% for object in object_list %}
                 <tr>
                   <th scope="row">{{ object.id }}</th>
-                  <td>{{ object.name|truncatechars:12 }}</td>
-                  <td>{{ object.surname|truncatechars:12 }}</td>
-                  <td>{{ object.email|truncatechars:18 }}</td>
+                  <td>{{ object.time }}</td>
+                  <td>{{ object.get_frequency_display }}</td>
+                  <td>{{ object.get_status_display|truncatechars:15 }}</td>
                   <td>
                     <div class="btn-group" style="width:100%">
-                      <a href="{% url 'mailing:client_details' object.pk %}" class="btn btn-sm btn-outline-success">Подробнее</a>
-                      <a href="{% url 'mailing:client_delete' object.pk %}" class="btn btn-sm btn-outline-danger">Удалить</a>
+                      <a href="#" class="btn btn-sm btn-outline-success">Подробнее</a>
+                      <a href="{% url 'mailing:mailing_delete' object.pk %}" class="btn btn-sm btn-outline-danger">Удалить</a>
                     </div>
                   </td>
                 </tr>

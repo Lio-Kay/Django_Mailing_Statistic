@@ -1,0 +1,46 @@
+{% extends 'main_page/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<main>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 mb-5">
+        <button type="button" class="btn btn-lg btn-dark" style="pointer-events: none;">Кол-во рассылок: {{ mailing_total_counter }}</button>
+        <button type="button" class="btn btn-lg btn-secondary" style="pointer-events: none;">Кол-во активных рассылок: {{ mailing_active_counter }}</button>
+        <button type="button" class="btn btn-lg btn-light" style="pointer-events: none;">Кол-во клиентов: {{ clients_counter }}</button>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 mb-2">
+        <h2 class="text-center"><b>Блог</b></h2>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row g-5">
+      {% for blogpost in blogpost_list %}
+      <div class="col-4">
+        <div class="card shadow-sm">
+          <img src="https://dummyimage.com/600x200&text=placeholder" class="card-img-top" alt="Фото">
+          <div class="card-body">
+            <div class="card-title">
+              <h3><b> {{ blogpost.title }}</b></h3>
+            </div>
+            <p class="card-text">{{ blogpost.text }}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <small class="text-muted">Дата: {{ blogpost.publication_date }}</small>
+              <small class="text-muted">Просмотры: {{ blogpost.views }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</main>
+
+{% endblock %}
