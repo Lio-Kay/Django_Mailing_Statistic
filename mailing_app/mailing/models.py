@@ -1,6 +1,6 @@
 from django.db import models
 
-from mailing_app.mailing.apps import MailingConfig
+from mailing.apps import MailingConfig
 
 
 app_name = MailingConfig.name
@@ -24,6 +24,7 @@ class Client(models.Model):
         verbose_name_plural = 'клиенты'
         ordering = 'name',  'surname', 'email'
 
+
 class MailingSettings(models.Model):
     time = models.DateTimeField(verbose_name='Время рассылки')
     DAILY = "DLY"
@@ -44,7 +45,7 @@ class MailingSettings(models.Model):
         (STARTED, "Инициирована"),
     ]
     status = models.CharField(max_length=4, choices=STATUS_CHOICES, default=CREATED,  verbose_name='Статус')
-    client = models.ManyToManyField(**NULLABLE, to='Client')
+    client = models.ManyToManyField(to='Client')
 
     def __str__(self):
         return f'{self.time}, {self.frequency}, {self.status}'
@@ -54,10 +55,11 @@ class MailingSettings(models.Model):
         verbose_name_plural = 'настройки'
         ordering = 'time',  'frequency', 'status',
 
+
 class MailingMessage(models.Model):
     subject = models.CharField(**NULLABLE, max_length=200, verbose_name='Тема')
     message = models.TextField(**NULLABLE, verbose_name='Сообщение')
-    settings = models.ForeignKey(**NULLABLE, to='MailingSettings', on_delete=models.CASCADE)
+    settings = models.OneToOneField(**NULLABLE, to='MailingSettings', on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.subject}, {self.message}'
@@ -67,19 +69,27 @@ class MailingMessage(models.Model):
         verbose_name_plural = 'сообщения'
         ordering = 'subject',
 
+
+class MailingLogsManager(models.Manager):
+    def create_log(self, time, status, service_response=None):
+        log = self.create(time=time, status=status, service_response=service_response)
+
+        return log
+
+
 class MailingLogs(models.Model):
     time = models.DateTimeField(verbose_name='Время последней попытки')
-    COMPLETED = "COMP"
-    CREATED = "CRE"
-    STARTED = "STAR"
+    SUCCESFUL = "SUCC"
+    FAILED = "FAIL"
     STATUS_CHOICES = [
-        (COMPLETED, "Завершена"),
-        (CREATED, "Создана"),
-        (STARTED, "Инициирована"),
+        (SUCCESFUL, "Успешно"),
+        (FAILED, "Ошибка"),
     ]
-    status = models.CharField(max_length=4, choices=STATUS_CHOICES, default=CREATED, verbose_name='Статус')
+    status = models.CharField(max_length=4, choices=STATUS_CHOICES, default=SUCCESFUL, verbose_name='Статус')
     service_response = models.TextField(**NULLABLE, verbose_name='Ответ сервера')
     settings = models.ForeignKey(to='MailingSettings', on_delete=models.CASCADE)
+
+    objects = MailingLogsManager()
 
     def __str__(self):
         return f'{self.time}, {self.status}, {self.service_response}'

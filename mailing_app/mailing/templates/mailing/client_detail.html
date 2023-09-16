@@ -6,11 +6,11 @@
 <main>
 
   <div class="container">
-    <div class="row justify-content-center mt-5">
+    <div class="row justify-content-center mt-2">
       <div class="col-8">
         <div class="card">
           <div class="card-header text-center">
-            <h4><b>Данные клиента</b></h4>
+            <h2><b>Данные клиента</b></h2>
           </div>
           <div class="card-body" style="max-height: 70vh;">
             <h4 class="card-text my-1"><b>ФИО:</b></h4>
@@ -18,12 +18,14 @@
             <h4 class="card-text my-1"><b>Почта:</b></h4>
             <h4 class="card-text my-1">{{ object.email }}</h4>
             <h4 class="card-text my-1"><b>Комментарий:</b></h4>
-            <h4 class="card-text overflow-auto">{{ object.commentary }}</h4>
+            <div class="card-text overflow-auto mb-3 p-0" style="max-height: 25vh;">
+            <h4 class="card-text">{{ object.commentary }}</h4>
+            </div>
             <div class="btn-group btn-group-lg d-flex justify-content-center mt-4" role="group">
               <a href="{% url 'mailing:client_update' object.pk %}" class="btn btn-lg btn-primary btn-block m-0">Изменить клиента</a>
               <a href="{% url 'mailing:client_delete' object.pk %}" class="btn btn-lg btn-danger btn-block m-0">Удалить клиента</a>
             </div>
-            <a href="{% url 'mailing:clients_list' %}" class="btn-lg btn-secondary d-flex justify-content-center mt-3">К списку клиентов</a>
+            <a href="{% url 'mailing:clients_list' %}" class="btn btn-lg btn-secondary d-flex justify-content-center mt-3">К списку клиентов</a>
           </div>
         </div>
       </div>

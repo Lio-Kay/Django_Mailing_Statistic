@@ -3,11 +3,13 @@ from django.views.generic import CreateView, ListView, DetailView, UpdateView, D
 from pytils.translit import slugify
 from django.forms import inlineformset_factory
 from django.urls import reverse_lazy, reverse
-
-from mailing.models import Client, MailingSettings, MailingMessage, MailingLogs
-from mailing_app.mailing.forms import MailingSettingsForm, MailingMessageForm, ClientForm
+from django.utils.timezone import now
 
 from itertools import zip_longest
+
+from mailing.models import Client, MailingSettings, MailingMessage, MailingLogs
+from mailing.forms import MailingSettingsForm, MailingMessageForm, ClientForm
+from mailing.services import send_email
 
 
 class MailingSettingsCreate(CreateView):
@@ -21,6 +23,11 @@ class MailingSettingsCreate(CreateView):
         if message_formset.is_valid():
             message_formset.instance = self.object
             message_formset.save()
+            if self.object.time <= now():
+                send_email(client_data=self.object.client.all(), mailing_settings=self.object, mailing_message=self.object.mailingmessage)
+            else:
+                self.object.status = 'Инициирована'
+
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -34,6 +41,10 @@ class MailingSettingsCreate(CreateView):
 
 
 class MailingSettingsList(ListView):
+    model = MailingSettings
+
+
+class MailingSettingsDetail(DetailView):
     model = MailingSettings
 
 
@@ -83,6 +94,10 @@ class ClientDelete(DeleteView):
     success_url = reverse_lazy('mailing:clients_list')
 
 
+class MailingLogsList(ListView):
+    model = MailingLogs
+
+
 # class ClientDetail(DetailView):
 #     model = Client
 #
@@ -100,28 +115,3 @@ class ClientDelete(DeleteView):
 #         cd['mailing_counter'] = len((MailingSettings.objects.filter(client=cd.get('object').pk)))
 #
 #         return cd
-#
-#
-# class MailingSettingsCreate(CreateView):
-#     model = MailingSettings
-#     form_class = MailingSettingsForm
-#
-#     def form_valid(self, form):
-#         message_formset = self.get_context_data()['formset']
-#         self.object = form.save()
-#         if message_formset.is_valid():
-#             message_formset.instance = self.object
-#             message_formset.save()
-#         return super().form_valid(form)
-#
-#     def get_context_data(self, **kwargs):
-#         context_data = super().get_context_data(**kwargs)
-#         MessageFormset = inlineformset_factory(MailingSettings, MailingMessage, form=MailingMessageForm, extra=1)
-#         if self.request.method == 'POST':
-#             context_data['formset'] = MessageFormset(self.request.POST, instance=self.object)
-#         else:
-#             context_data['formset'] = MessageFormset(instance=self.object)
-#         return context_data
-#
-#     def get_success_url(self):
-#         return reverse('mailing:client_details', kwargs={'slug': self.object.client.slug})

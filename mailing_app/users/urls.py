@@ -1,7 +1,7 @@
 from django.urls import path
 
 from users.apps import UsersConfig
-from mailing_app.users.views import UserLoginView, UserLogoutView, RegisterView, verify_email, UserProfileView, UserGeneratePassword
+from users.views import UserLoginView, UserLogoutView, RegisterView, verify_email, UserProfileView, UserGeneratePassword
 
 app_name = UsersConfig.name
 

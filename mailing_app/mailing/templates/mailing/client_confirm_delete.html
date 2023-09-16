@@ -6,21 +6,23 @@
 <main>
 
   <div class="container">
-    <div class="row justify-content-center mt-5">
+    <div class="row justify-content-center mt-2">
       <div class="col-6">
-        <div class="card shadow-sm">
-          <div class="card-body">
-            <form method="post">
-              {% csrf_token %}
-              <h3 class="text-center mb-4"><b>Вы собираетесь удалить клиента</b></h3>
-              <h4>Имя: {{ object.name }}</h4>
-              <h4>Фамилия: {{ object.surname }}</h4>
-              <h4>Фамилия: {{ object.patronim }}</h4>
-              <div class="btn-group d-flex justify-content-center mt-4" role="group">
+        <div class="card">
+          <div class="card-header text-center">
+            <h2><b>Вы собираетесь удалить клиента</b></h2>
+          </div>
+          <form method="post">
+            {% csrf_token %}
+            <div class="card-body" style="max-height: 70vh;">
+              <h4 class="card-text my-1"><b>ID:</b> {{ object.id }}</h4>
+              <h4 class="card-text my-1"><b>Имя:</b> {{ object.name }}</h4>
+              <h4 class="card-text mt-1"><b>Фамилия:</b> {{ object.surname }}</h4>
+              <h4 class="card-text mt-1 mb-3"><b>Отчество:</b> {{ object.patronim }}</h4>
+            <div class="btn-group d-flex justify-content-center mt-4" role="group">
                 <button type="submit" class="btn btn-lg btn-danger btn-block m-0">Удалить</button>
                 <a class="btn btn-lg btn-secondary btn-block m-0" href="{% url 'mailing:client_details' object.pk %}">Отмена</a>
-              </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>

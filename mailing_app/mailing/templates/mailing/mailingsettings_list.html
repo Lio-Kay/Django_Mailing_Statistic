@@ -8,9 +8,9 @@
     <div class="row">
       <div class="col-12">
         <div class="container m-3">
-          <a href="{% url 'mailing:clients_list' %}" class="btn btn-lg btn-primary text-black mr-4">К клиентам</a>
+          <a href="{% url 'mailing:clients_list' %}" class="btn btn-lg btn-primary text-white me-4">К клиентам</a>
           <a href="{% url 'mailing:mailing_create' %}" class="btn btn-lg btn-dark text-white">Создать рассылку</a>
-          <a href="#" class="btn btn-lg btn-secondary text-white">Посмотреть отчеты по рассылкам</a>
+          <a href="{% url 'mailing:mailing_logs_list' %}" class="btn btn-lg btn-secondary text-white">Посмотреть отчеты по рассылкам</a>
         </div>
           <div class="container m-3">
             <table class="table text-left my-2">
@@ -20,6 +20,7 @@
                   <th scope="col">Время</th>
                   <th scope="col">Частота</th>
                   <th scope="col">Статус</th>
+                  <th scope="col">Кол-во клиентов</th>
                   <th scope="col">Действие</th>
                 </tr>
               </thead>
@@ -30,9 +31,10 @@
                   <td>{{ object.time }}</td>
                   <td>{{ object.get_frequency_display }}</td>
                   <td>{{ object.get_status_display|truncatechars:15 }}</td>
+                  <td>{{ object.client.all.count }}</td>
                   <td>
                     <div class="btn-group" style="width:100%">
-                      <a href="#" class="btn btn-sm btn-outline-success">Подробнее</a>
+                      <a href="{% url 'mailing:mailing_detail' object.pk %}" class="btn btn-sm btn-outline-success">Подробнее</a>
                       <a href="{% url 'mailing:mailing_delete' object.pk %}" class="btn btn-sm btn-outline-danger">Удалить</a>
                     </div>
                   </td>

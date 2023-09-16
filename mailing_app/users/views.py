@@ -3,6 +3,10 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, View
 from django.contrib.auth.views import LoginView, LogoutView
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail import send_mail
+from django.http import HttpResponseRedirect
+from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 
 import secrets
 import string

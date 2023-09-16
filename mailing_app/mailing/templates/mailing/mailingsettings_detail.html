@@ -1,0 +1,43 @@
+{% extends 'main_page/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<main>
+
+  <div class="container">
+    <div class="row justify-content-center mt-2">
+      <div class="col-8">
+        <div class="card">
+          <div class="card-header text-center">
+            <h2><b>Данные рассылки</b></h2>
+          </div>
+          <div class="card-body">
+            <h4 class="card-text my-1"><b>Время:</b> {{ object.time }}</h4>
+            <h4 class="card-text my-1"><b>Частота:</b> {{ object.get_frequency_display }}</h4>
+            <h4 class="card-text my-1"><b>Статус:</b> {{ object.get_status_display }}</h4>
+            <h4 class="card-text my-1"><b>Тема рассылки:</b></h4>
+            <div class="card-text overflow-auto mb-3 p-0" style="max-height: 5vh;">
+            <h4 class="card-text m-1">{{ object.mailingmessage.subject }}</h4>
+            </div>
+            <h4 class="card-text my-1"><b>Сообщение рассылки:</b></h4>
+            <div class="card-text overflow-auto mb-3 p-0" style="max-height: 15vh;">
+            <h4 class="card-text m-1">{{ object.mailingmessage.message }}</h4>
+            </div>
+            <h4 class="card-text my-1"><b>Клиенты:</b></h4>
+            <div class="card-text overflow-auto mb-3 p-0" style="max-height: 10vh;">
+            {% for obj in object.client.all %}
+            <h4 class="card-text m-0">{{ obj.name }} {{ obj.surname }}. {{ obj.email }}</h4>
+            {% endfor %}
+            </div>
+            <a href="{% url 'mailing:mailing_delete' object.pk %}" class="btn btn-lg btn-danger d-flex justify-content-center m-0">Удалить рассылку</a>
+            <a href="{% url 'mailing:mailing_list' %}" class="btn btn-lg btn-secondary d-flex justify-content-center mt-3">К списку рассылок</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+{% endblock %}
