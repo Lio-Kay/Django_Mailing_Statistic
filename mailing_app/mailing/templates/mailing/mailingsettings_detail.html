@@ -30,7 +30,9 @@
             <h4 class="card-text m-0">{{ obj.name }} {{ obj.surname }}. {{ obj.email }}</h4>
             {% endfor %}
             </div>
+            {% if perms.catalog.delete_product or object.owner == user %}
             <a href="{% url 'mailing:mailing_delete' object.pk %}" class="btn btn-lg btn-danger d-flex justify-content-center m-0">Удалить рассылку</a>
+            {% endif %}
             <a href="{% url 'mailing:mailing_list' %}" class="btn btn-lg btn-dark d-flex justify-content-center mt-3">К списку рассылок</a>
           </div>
         </div>

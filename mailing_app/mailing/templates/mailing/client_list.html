@@ -19,6 +19,7 @@
                   <th scope="col">Имя</th>
                   <th scope="col">Фамилия</th>
                   <th scope="col">Почта</th>
+                  <th scope="col">Владелец</th>
                   <th scope="col">Действие</th>
                 </tr>
               </thead>
@@ -29,10 +30,13 @@
                   <td>{{ object.name|truncatechars:15 }}</td>
                   <td>{{ object.surname|truncatechars:15 }}</td>
                   <td>{{ object.email|truncatechars:25 }}</td>
+                  <td>{{ object.owner|truncatechars:25 }}</td>
                   <td>
                     <div class="btn-group" style="width:100%">
                       <a href="{% url 'mailing:client_details' object.pk %}" class="btn btn-sm btn-outline-success">Подробнее</a>
+                      {% if perms.catalog.delete_product or object.owner == user %}
                       <a href="{% url 'mailing:client_delete' object.pk %}" class="btn btn-sm btn-outline-danger">Удалить</a>
+                      {% endif %}
                     </div>
                   </td>
                 </tr>

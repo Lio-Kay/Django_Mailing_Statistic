@@ -50,7 +50,7 @@ class MailingSettings(models.Model):
         (STARTED, "Инициирована"),
     ]
     status = models.CharField(max_length=4, choices=STATUS_CHOICES, default='CRE',  verbose_name='Статус')
-    client = models.ManyToManyField(to='Client')
+    client = models.ManyToManyField(to='Client', limit_choices_to={'owner':True})
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, **NULLABLE, on_delete=models.SET_NULL, verbose_name='Владелец')
 
     def __str__(self):

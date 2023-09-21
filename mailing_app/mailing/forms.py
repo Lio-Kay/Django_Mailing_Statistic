@@ -10,14 +10,14 @@ class ClientForm(forms.ModelForm):
 
     class Meta:
         model = Client
-        exclude = 'slug',
+        exclude = 'owner', 'slug'
 
     def clean(self):
         cleaned_data = self.cleaned_data.get('email')
         for client in Client.objects.all():
             if slugify(cleaned_data) == client.slug:
                 raise forms.ValidationError('Клиент с данным email уже существует')
-        return cleaned_data
+            return self.cleaned_data
 
 
 class TimeInput(forms.DateInput):
@@ -28,7 +28,7 @@ class MailingSettingsForm(forms.ModelForm):
 
     class Meta:
         model = MailingSettings
-        exclude = 'last_sent', 'status', 'logs',
+        exclude = 'last_sent', 'status', 'logs', 'owner'
         widgets = {
             'time': TimeInput()
         }

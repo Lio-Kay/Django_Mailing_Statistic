@@ -21,6 +21,7 @@
                   <th scope="col">Частота</th>
                   <th scope="col">Статус</th>
                   <th scope="col">Кол-во клиентов</th>
+                  <th scope="col">Владелец</th>
                   <th scope="col">Действие</th>
                 </tr>
               </thead>
@@ -32,10 +33,13 @@
                   <td>{{ object.get_frequency_display }}</td>
                   <td>{{ object.get_status_display|truncatechars:15 }}</td>
                   <td>{{ object.client.all.count }}</td>
+                  <td>{{ object.owner }}</td>
                   <td>
                     <div class="btn-group" style="width:100%">
                       <a href="{% url 'mailing:mailing_detail' object.pk %}" class="btn btn-sm btn-outline-success">Подробнее</a>
+                      {% if perms.catalog.delete_product or object.owner == user %}
                       <a href="{% url 'mailing:mailing_delete' object.pk %}" class="btn btn-sm btn-outline-danger">Удалить</a>
+                      {% endif %}
                     </div>
                   </td>
                 </tr>

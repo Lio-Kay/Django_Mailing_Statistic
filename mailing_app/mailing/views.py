@@ -6,6 +6,7 @@ from django.forms import inlineformset_factory
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone
 from django.db.utils import IntegrityError
+from django.core.exceptions import PermissionDenied
 
 from itertools import zip_longest
 import datetime
@@ -15,7 +16,7 @@ from mailing.forms import MailingSettingsForm, MailingMessageForm, ClientForm
 from mailing.services import send_email
 
 
-class MailingSettingsCreate(CreateView, LoginRequiredMixin):
+class MailingSettingsCreate(LoginRequiredMixin, CreateView):
     model = MailingSettings
     form_class = MailingSettingsForm
     success_url = reverse_lazy('mailing:mailing_list')
@@ -56,16 +57,28 @@ class MailingSettingsDetail(DetailView):
     model = MailingSettings
 
 
-class MailingSettingsUpdate(UpdateView, LoginRequiredMixin):
-    pass
+class MailingSettingsUpdate(LoginRequiredMixin, UpdateView):
+    model = MailingSettings
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.owner != self.request.user and not self.request.user.is_superuser:
+            raise PermissionDenied
+        return self.object
 
 
-class MailingSettingsDelete(DeleteView, LoginRequiredMixin):
+class MailingSettingsDelete(LoginRequiredMixin, DeleteView):
     model = MailingSettings
     success_url = reverse_lazy('mailing:mailing_list')
 
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.owner != self.request.user and not self.request.user.is_superuser:
+            raise PermissionDenied
+        return self.object
 
-class ClientCreate(CreateView, LoginRequiredMixin):
+
+class ClientCreate(LoginRequiredMixin, CreateView):
     model = Client
     form_class = ClientForm
     success_url = reverse_lazy('mailing:clients_list')
@@ -89,9 +102,15 @@ class ClientDetail(DetailView):
     model = Client
 
 
-class ClientUpdate(UpdateView, LoginRequiredMixin):
+class ClientUpdate(LoginRequiredMixin, UpdateView):
     model = Client
     form_class = ClientForm
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.owner != self.request.user and not self.request.user.is_superuser:
+            raise PermissionDenied
+        return self.object
 
     def form_valid(self, form):
         if form.is_valid():
@@ -101,9 +120,15 @@ class ClientUpdate(UpdateView, LoginRequiredMixin):
         return super().form_valid(form)
 
 
-class ClientDelete(DeleteView, LoginRequiredMixin):
+class ClientDelete(LoginRequiredMixin, DeleteView):
     model = Client
     success_url = reverse_lazy('mailing:clients_list')
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.owner != self.request.user and not self.request.user.is_superuser:
+            raise PermissionDenied
+        return self.object
 
 
 class MailingLogsList(ListView):
