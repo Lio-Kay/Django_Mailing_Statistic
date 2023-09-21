@@ -6,7 +6,7 @@
 <main>
   <div class="container">
     <div class="row">
-      <div class="col-12 mb-5">
+      <div class="col-12 mb-4">
         <button type="button" class="btn btn-lg btn-dark" style="pointer-events: none;">Кол-во рассылок: {{ mailing_total_counter }}</button>
         <button type="button" class="btn btn-lg btn-secondary" style="pointer-events: none;">Кол-во активных рассылок: {{ mailing_active_counter }}</button>
         <button type="button" class="btn btn-lg btn-light" style="pointer-events: none;">Кол-во клиентов: {{ clients_counter }}</button>
@@ -15,8 +15,8 @@
   </div>
   <div class="container">
     <div class="row">
-      <div class="col-12 mb-2">
-        <h2 class="text-center"><b>Блог</b></h2>
+      <div class="col-12">
+        <h1 class="text-center border-bottom pb-2"><b>Блог</b></h1>
       </div>
     </div>
   </div>
@@ -28,9 +28,10 @@
           <img src="https://dummyimage.com/600x200&text=placeholder" class="card-img-top" alt="Фото">
           <div class="card-body">
             <div class="card-title">
-              <h3><b> {{ blogpost.title }}</b></h3>
+              <h3><b> {{ blogpost.title|truncatechars:100 }}</b></h3>
             </div>
-            <p class="card-text">{{ blogpost.text }}</p>
+            <p class="card-text">{{ blogpost.text|truncatechars:300 }}</p>
+            <a href="{% url 'blog:blogpost_details' blogpost.pk %}" class="btn btn-dark d-flex justify-content-center my-3">Подробнее</a>
             <div class="d-flex justify-content-between align-items-center">
               <small class="text-muted">Дата: {{ blogpost.publication_date }}</small>
               <small class="text-muted">Просмотры: {{ blogpost.views }}</small>

@@ -6,28 +6,28 @@ from mailing.models import Client, MailingSettings, MailingMessage, MailingLogs
 @admin.register(Client)
 class ClientAdmin(admin.ModelAdmin):
     list_display = 'id', 'name', 'surname', 'patronim', 'email', 'commentary', 'slug'
-    list_display_links = 'id', 'name', 'surname', 'patronim', 'email'
-    search_fields = 'name', 'surname',  'email',
+    list_display_links = 'id', 'name', 'surname', 'patronim', 'email', 'commentary', 'slug'
+    search_fields = 'id', 'name', 'surname', 'email'
 
 
 @admin.register(MailingSettings)
 class MailingSettingsAdmin(admin.ModelAdmin):
-    list_display = 'id', 'time', 'frequency', 'status'
+    list_display = 'id', 'time', 'last_sent', 'frequency', 'status'
     list_display_links = 'id', 'time'
-    list_filter = 'frequency', 'status',
-    search_fields = 'time',
-    list_editable = 'frequency', 'status',
+    list_filter = 'frequency', 'status'
+    search_fields = 'id', 'time',
+    list_editable = 'last_sent', 'frequency', 'status'
 
 
 @admin.register(MailingMessage)
 class MailingMessageAdmin(admin.ModelAdmin):
     list_display = 'id', 'subject', 'message', 'settings'
     list_display_links = 'id', 'subject', 'message', 'settings'
-    search_fields = 'subject', 'message',
+    search_fields = 'id', 'subject', 'message'
 
 
 @admin.register(MailingLogs)
 class MailingLogsAdmin(admin.ModelAdmin):
     list_display = 'id', 'time', 'status', 'service_response'
     list_filter = 'status',
-    search_fields = 'time', 'service_response',
+    search_fields = 'id', 'time', 'service_response'

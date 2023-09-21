@@ -21,7 +21,7 @@
               <h4 class="card-text mt-1 mb-3"><b>Отчество:</b> {{ object.patronim }}</h4>
             <div class="btn-group d-flex justify-content-center mt-4" role="group">
                 <button type="submit" class="btn btn-lg btn-danger btn-block m-0">Удалить</button>
-                <a class="btn btn-lg btn-secondary btn-block m-0" href="{% url 'mailing:client_details' object.pk %}">Отмена</a>
+                <a class="btn btn-lg btn-dark btn-block m-0" href="{% url 'mailing:clients_list' %}">Отмена</a>
             </div>
           </div>
         </div>

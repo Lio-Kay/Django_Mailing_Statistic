@@ -7,15 +7,17 @@
   <div class="container">
     <div class="row">
       <div class="col-12">
-        <div class="container m-3">
-          <a href="{% url 'mailing:mailing_list' %}" class="btn btn-lg btn-primary text-white me-4">К рассылкам</a>
+        <div class="container mb-3">
+          <a href="{% url 'mailing:mailing_list' %}" class="btn btn-lg btn-primary text-white me-4" style="width: 151px">К рассылкам</a>
         </div>
-          <div class="container m-3">
+          <div class="container">
             <table class="table text-left my-2">
               <thead class="thead-dark">
                 <tr>
                   <th scope="col">ID</th>
                   <th scope="col">ID рассылки</th>
+                  <th scope="col">ID клиентов</th>
+                  <th scope="col">Настройки</th>
                   <th scope="col">Время</th>
                   <th scope="col">Статус</th>
                   <th scope="col">Ответ сервера</th>
@@ -26,6 +28,8 @@
                 <tr>
                   <th scope="row">{{ object.id }}</th>
                   <td>{{ object.settings.id }}</td>
+                  <td>{% for client in object.settings.client.all %} {{ client.id }},{% endfor %}</td>
+                  <td>{{ object.settings }}</td>
                   <td>{{ object.time }}</td>
                   <td>{{ object.get_status_display|truncatechars:15 }}</td>
                   <td>{{ object.service_response|truncatechars:50 }}</td>

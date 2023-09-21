@@ -7,11 +7,11 @@
   <div class="container">
     <div class="row">
       <div class="col-12">
-        <div class="container m-3">
-          <a href="{% url 'mailing:mailing_list' %}" class="btn btn-lg btn-primary text-white me-4">К рассылкам</a>
+        <div class="container mb-3">
+          <a href="{% url 'mailing:mailing_list' %}" class="btn btn-lg btn-primary text-white me-4" style="width: 151px">К рассылкам</a>
           <a href="{% url 'mailing:client_create' %}" class="btn btn-lg btn-dark text-white">Добавить клиента</a>
         </div>
-          <div class="container m-3">
+          <div class="container">
             <table class="table text-left my-2">
               <thead class="thead-dark">
                 <tr>
@@ -26,9 +26,9 @@
                 {% for object in object_list %}
                 <tr>
                   <th scope="row">{{ object.id }}</th>
-                  <td>{{ object.name|truncatechars:12 }}</td>
-                  <td>{{ object.surname|truncatechars:12 }}</td>
-                  <td>{{ object.email|truncatechars:18 }}</td>
+                  <td>{{ object.name|truncatechars:15 }}</td>
+                  <td>{{ object.surname|truncatechars:15 }}</td>
+                  <td>{{ object.email|truncatechars:25 }}</td>
                   <td>
                     <div class="btn-group" style="width:100%">
                       <a href="{% url 'mailing:client_details' object.pk %}" class="btn btn-sm btn-outline-success">Подробнее</a>

@@ -19,9 +19,9 @@
               <button type="submit" class="btn btn-lg btn-success">Создать</button>
               {% endif %}
               {% if object %}
-              <a href="{% url 'mailing:client_details' object.pk %}" class="btn btn-lg btn-secondary">Назад</a>
+              <a href="{% url 'mailing:client_details' object.pk %}" class="btn btn-lg btn-dark">Назад</a>
               {% else %}
-              <a href="{% url 'mailing:clients_list' %}" class="btn btn-lg btn-secondary">Назад</a>
+              <a href="{% url 'mailing:clients_list' %}" class="btn btn-lg btn-dark">Назад</a>
               {% endif %}
             </form>
           </div>

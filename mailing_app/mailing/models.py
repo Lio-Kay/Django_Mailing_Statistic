@@ -1,5 +1,6 @@
 from django.db import models
 
+from mailing_app.config import settings
 from mailing.apps import MailingConfig
 
 
@@ -9,12 +10,14 @@ NULLABLE = {'blank': True, 'null': True}
 
 
 class Client(models.Model):
+    """Модель клиента сервиса"""
     name = models.CharField(max_length=50, verbose_name='Имя')
     surname = models.CharField(max_length=50, verbose_name='Фамилия')
     patronim = models.CharField(**NULLABLE, max_length=50, verbose_name='Отчество')
     email = models.EmailField(max_length=100,verbose_name='Контактный email')
     commentary = models.TextField(**NULLABLE, verbose_name='Комментарий')
     slug = models.SlugField(max_length=100, unique=True, verbose_name='Slug')
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, **NULLABLE, on_delete=models.SET_NULL, verbose_name='Владелец')
 
     def __str__(self):
         return f'{self.name}, {self.surname}, {self.email}'
@@ -26,7 +29,9 @@ class Client(models.Model):
 
 
 class MailingSettings(models.Model):
-    time = models.DateTimeField(verbose_name='Время рассылки')
+    """Модель настроек рассылки"""
+    time = models.TimeField(verbose_name='Время рассылки')
+    last_sent = models.DateTimeField(**NULLABLE, verbose_name='Время до отправки')
     DAILY = "DLY"
     WEEKLY = "WKL"
     MONTHLY = "MTH"
@@ -44,11 +49,12 @@ class MailingSettings(models.Model):
         (CREATED, "Создана"),
         (STARTED, "Инициирована"),
     ]
-    status = models.CharField(max_length=4, choices=STATUS_CHOICES, default=CREATED,  verbose_name='Статус')
+    status = models.CharField(max_length=4, choices=STATUS_CHOICES, default='CRE',  verbose_name='Статус')
     client = models.ManyToManyField(to='Client')
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, **NULLABLE, on_delete=models.SET_NULL, verbose_name='Владелец')
 
     def __str__(self):
-        return f'{self.time}, {self.frequency}, {self.status}'
+        return f'{self.time}, {self.last_sent}, {self.frequency}, {self.status}'
 
     class Meta:
         verbose_name = 'настройку'
@@ -57,8 +63,9 @@ class MailingSettings(models.Model):
 
 
 class MailingMessage(models.Model):
-    subject = models.CharField(**NULLABLE, max_length=200, verbose_name='Тема')
-    message = models.TextField(**NULLABLE, verbose_name='Сообщение')
+    """Модель сообщения рассылки"""
+    subject = models.CharField(max_length=200, verbose_name='Тема')
+    message = models.TextField(verbose_name='Сообщение')
     settings = models.OneToOneField(**NULLABLE, to='MailingSettings', on_delete=models.CASCADE)
 
     def __str__(self):
@@ -71,13 +78,15 @@ class MailingMessage(models.Model):
 
 
 class MailingLogsManager(models.Manager):
-    def create_log(self, time, status, service_response=None):
-        log = self.create(time=time, status=status, service_response=service_response)
+    """Класс для создания логов для модели логов"""
+    def create_log(self, time, status, settings, service_response=None):
+        log = self.create(time=time, status=status, settings=settings, service_response=service_response)
 
         return log
 
 
 class MailingLogs(models.Model):
+    """Модель логов"""
     time = models.DateTimeField(verbose_name='Время последней попытки')
     SUCCESFUL = "SUCC"
     FAILED = "FAIL"

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import View
 from django.core.cache import cache
 
-from random import choices
+from random import choice
 
 from blog.models import BlogPost
 from mailing.models import MailingSettings, Client
@@ -28,13 +28,18 @@ class MainPageView(View):
             blogpost_list = BlogPost.objects.all()
 
         try:
-            blogpost_list = choices(blogpost_list, k=3)
+            blogpost_list_3_publications = []
+            while len(blogpost_list_3_publications) < 3:
+                item = choice(blogpost_list)
+                if item not in blogpost_list_3_publications:
+                    blogpost_list_3_publications.append(item)
         except IndexError:
             pass
         context = {
             'mailing_total_counter': mailing_total_counter,
             'mailing_active_counter': mailing_active_counter,
             'clients_counter': clients_counter,
-            'blogpost_list': blogpost_list,
+            'blogpost_list': blogpost_list_3_publications,
+            'blogpost': BlogPost.objects.all(),
         }
         return render(request, self.template_name, context)
