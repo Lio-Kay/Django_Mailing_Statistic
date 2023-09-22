@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView, View
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from pytils.translit import slugify
 from django.forms import inlineformset_factory
@@ -7,6 +7,7 @@ from django.urls import reverse_lazy, reverse
 from django.utils import timezone
 from django.db.utils import IntegrityError
 from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseRedirect
 
 from itertools import zip_longest
 import datetime
@@ -76,6 +77,20 @@ class MailingSettingsDelete(LoginRequiredMixin, DeleteView):
         if self.object.owner != self.request.user and not self.request.user.is_superuser:
             raise PermissionDenied
         return self.object
+
+
+def finish_mailing(request, pk):
+    mailing = get_object_or_404(MailingSettings, id=request.POST.get('finish_mailing'))
+    mailing.status = 'COMP'
+    mailing.save()
+    return HttpResponseRedirect(reverse('mailing:mailing_details', args=[str(pk)]))
+
+
+def start_mailing(request, pk):
+    mailing = get_object_or_404(MailingSettings, id=request.POST.get('start_mailing'))
+    mailing.status = 'STAR'
+    mailing.save()
+    return HttpResponseRedirect(reverse('mailing:mailing_details', args=[str(pk)]))
 
 
 class ClientCreate(LoginRequiredMixin, CreateView):

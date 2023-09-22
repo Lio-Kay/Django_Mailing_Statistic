@@ -17,3 +17,11 @@ class User(AbstractUser):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+
+    class Meta:
+        permissions = [
+            (
+                'block_user',
+                'Can block users'
+            )
+        ]

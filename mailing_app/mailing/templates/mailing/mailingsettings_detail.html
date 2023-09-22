@@ -33,6 +33,19 @@
             {% if perms.catalog.delete_product or object.owner == user %}
             <a href="{% url 'mailing:mailing_delete' object.pk %}" class="btn btn-lg btn-danger d-flex justify-content-center m-0">Удалить рассылку</a>
             {% endif %}
+            {% if perms.mailing.disable_mailing or user.is_superuser %}
+              {% if object.status == 'COMP' %}
+              <form action="{% url 'mailing:start_mailing' object.pk %}" method="post">
+              {% csrf_token %}
+              <button type="submit" name="start_mailing" value="{{ object.pk }}" class="btn btn-lg btn-success d-flex justify-content-center w-100 mt-3">Инициировать рассылку</button>
+              </form>
+              {% else %}
+              <form action="{% url 'mailing:finish_mailing' object.pk %}" method="post" class="d-flex justify-content-center">
+              {% csrf_token %}
+              <button type="submit" name="finish_mailing" value="{{ object.pk }}" class="btn btn-lg btn-warning d-flex justify-content-center w-100 mt-3">Завершить рассылку</button>
+              </form>
+              {% endif %}
+            {% endif %}
             <a href="{% url 'mailing:mailing_list' %}" class="btn btn-lg btn-dark d-flex justify-content-center mt-3">К списку рассылок</a>
           </div>
         </div>

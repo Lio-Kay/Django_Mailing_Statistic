@@ -61,6 +61,14 @@ class MailingSettings(models.Model):
         verbose_name_plural = 'настройки'
         ordering = 'time',  'frequency', 'status',
 
+        permissions = [
+            (
+
+                'disable_mailing',
+                'Can disable mailing'
+            )
+        ]
+
 
 class MailingMessage(models.Model):
     """Модель сообщения рассылки"""
