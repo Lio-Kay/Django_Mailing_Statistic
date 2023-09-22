@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-+q0o)+-pl-r2_#g3y5@_=@@9(q3hq#*px_$u2o7a4xzs@_v53i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '*', '127.0.0.1']
 
 ADMINS = [
     (os.getenv('ADMIN_NAME'), os.getenv('ADMIN_MAIL')),
@@ -70,7 +70,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

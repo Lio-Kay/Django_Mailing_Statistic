@@ -43,3 +43,23 @@ class MainPageView(View):
             'blogpost': BlogPost.objects.all(),
         }
         return render(request, self.template_name, context)
+
+
+def handler400(request, exception=None):
+    response = render(request, "main_page/templates/errors/404.html", context={}, status=400)
+    return response
+
+def handler403(request, exception=None):
+    response = render(request, "main_page/templates/errors/404.html", context={}, status=403)
+    return response
+
+
+def handler404(request, exception=None):
+    response = render(request, "main_page/templates/errors/404.html", context={}, status=404)
+    return response
+
+
+
+def handler500(request, exception=None):
+    response = render(request, "main_page/templates/errors/404.html", context={}, status=500)
+    return response

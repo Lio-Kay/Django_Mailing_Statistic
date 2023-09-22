@@ -42,6 +42,7 @@ django. Пользователь может добавлять клиентов 
   pip install -r requirements.txt
   cd .\mailing_app\
   python manage.py runserver
+  python mange.py runappscheduler
   ```
 
 ## Технологии в проекте
@@ -71,3 +72,4 @@ django. Пользователь может добавлять клиентов 
 * Расширить функционтал редактирования рассылок
 * Добавить автомасштабирование в django-imagekit 
 * Перевести аутентификацию на django-allauth
+* Покрыть проект тестами
